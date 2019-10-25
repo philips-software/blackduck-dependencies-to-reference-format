@@ -4,6 +4,10 @@ const program = require('commander')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 
+const {
+  infoMessage,
+  errorMessage
+} = require('./logger/logger')
 const extractor = require('./convert-to-dependencies-reference-structure/extract-dependencies-from-source')
 const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-array.js')
 const { hasFileExtension } = require('./file-validators/file-extension-validator')
@@ -20,21 +24,6 @@ program
   .parse(process.argv)
 
 const { input, output, verbose } = program
-
-const infoMessage = (message, verboseMessage) => {
-  console.log(chalk`{green v} ${message}`)
-  if (verbose && verboseMessage) {
-    console.log(`  ${verboseMessage}`)
-  }
-}
-
-const errorMessage = (message, verboseMessage) => {
-  console.error(chalk`{red x} ${message}`)
-
-  if (verbose && verboseMessage) {
-    console.error(`  Detailed error: ${verboseMessage}`)
-  }
-}
 
 const processFiles = async () => {
   infoMessage(

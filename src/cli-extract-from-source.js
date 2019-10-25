@@ -11,7 +11,6 @@ const {
   errorMessage
 } = require('./logger/logger')
 const {
-  SUPPORTED_DETECT_VERSIONS,
   DEFAULT_DETECT_VERSION,
   isSupportedVersionOfDetect
 } = require('./constants/detect-versions')

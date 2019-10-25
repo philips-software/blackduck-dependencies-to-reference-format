@@ -59,3 +59,39 @@ describe('sortByNameAndVersionCaseInsensitive', () => {
       ])
   })
 })
+
+describe('allElementsHaveAllKeys', () => {
+  it('returns true ' +
+  'if every element of the array contains all the keys as specified in the keys parameter',
+  () => {
+    const inputArray = [
+      { key1: 'a', key2: 'b' },
+      { key1: 'c', key2: 'd' }
+    ]
+    const inputKeys = ['key1', 'key2']
+    const expectedOutput = true
+    const actualOutput = utilities.allElementsHaveAllKeys({
+      jsonArray: inputArray,
+      keys: inputKeys
+    })
+    expect(actualOutput)
+      .toEqual(expectedOutput)
+  })
+
+  it('returns false ' +
+  'if not every element of the array contains all the keys as specified in the keys parameter',
+  () => {
+    const inputArray = [
+      { thisIsNotKey1: 'a', key2: 'b' },
+      { key1: 'c', key2: 'd' }
+    ]
+    const inputKeys = ['key1', 'key2']
+    const expectedOutput = false
+    const actualOutput = utilities.allElementsHaveAllKeys({
+      jsonArray: inputArray,
+      keys: inputKeys
+    })
+    expect(actualOutput)
+      .toEqual(expectedOutput)
+  })
+})

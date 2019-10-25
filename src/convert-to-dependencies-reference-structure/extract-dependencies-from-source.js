@@ -21,7 +21,8 @@ const {
 } = require('../constants/source-keys-values')
 
 const {
-  SUPPORTED_DETECT_VERSIONS
+  SUPPORTED_DETECT_VERSIONS,
+  isSupportedVersionOfDetect
 } = require('../constants/detect-versions')
 
 const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
@@ -52,10 +53,6 @@ const filterForKeyValues = ({ array, key, keyValuesToMatchTo }) => {
   return array.filter(element =>
     !!keyValuesToMatchTo.includes(element[key])
   )
-}
-
-const isSupportedVersionOfDetect = ({ versionOfDetect }) => {
-  return SUPPORTED_DETECT_VERSIONS.includes(versionOfDetect)
 }
 
 const getUniqueValuesOfMatchType = ({ jsonArray }) => {

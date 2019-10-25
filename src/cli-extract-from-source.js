@@ -12,7 +12,8 @@ const {
 } = require('./logger/logger')
 const {
   SUPPORTED_DETECT_VERSIONS,
-  DEFAULT_DETECT_VERSION
+  DEFAULT_DETECT_VERSION,
+  isSupportedVersionOfDetect
 } = require('./constants/detect-versions')
 const extractor = require('./convert-to-dependencies-reference-structure/extract-dependencies-from-source')
 const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-array.js')
@@ -55,7 +56,7 @@ const processFiles = async () => {
     versionOfDetect = DEFAULT_DETECT_VERSION
   }
 
-  if (!SUPPORTED_DETECT_VERSIONS.includes(versionOfDetect)) {
+  if (!isSupportedVersionOfDetect({ versionOfDetect })) {
     errorMessage(chalk`{red unsupported detect version: ${versionOfDetect}}; program exits`)
     return
   }

@@ -7,11 +7,9 @@ const chalk = require('chalk')
 const {
   setVerbose,
   infoMessage,
-  warningMessage,
   errorMessage
 } = require('./logger/logger')
 const {
-  DEFAULT_DETECT_VERSION,
   isSupportedVersionOfDetect
 } = require('./constants/detect-versions')
 const extractor = require('./convert-to-dependencies-reference-structure/extract-dependencies-from-source')
@@ -22,10 +20,10 @@ program
   .version('0.0.1', '-v, --version')
   .option(
     '-i, --input [file]',
-    'specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'
+    '(mandatory) specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'
   )
-  .option('-o, --output [filename]', 'specifies the output filename', 'dependencies_from_source.json')
-  .option('-d, --detect [value]', '(optional) specifies the version of the synopsis detect tool that was used to generate the input file. Defaults to 5.*. One of: 5.*, 6.*')
+  .option('-o, --output [filename]', '(optional) specifies the output filename', 'dependencies_from_source.json')
+  .option('-d, --detect [value]', '(mandatory) specifies the version of the synopsis detect tool that was used to generate the input file. Defaults to 5.*. One of: 5.*, 6.*')
   .option('--verbose', 'Verbose output of commands and errors')
 
   .parse(process.argv)
@@ -49,12 +47,12 @@ const processFiles = async () => {
     return
   }
 
-  let versionOfDetect = detect
   if (!detect) {
-    warningMessage(chalk`{yellow Missing parameter detect}; will use default: {blue ${DEFAULT_DETECT_VERSION}}`)
-    versionOfDetect = DEFAULT_DETECT_VERSION
+    errorMessage(chalk`{yellow Missing parameter detect}; program exits`)
+    return
   }
 
+  let versionOfDetect = detect
   if (!isSupportedVersionOfDetect({ versionOfDetect })) {
     errorMessage(chalk`{red unsupported detect version: ${versionOfDetect}}; program exits`)
     return

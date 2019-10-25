@@ -3,17 +3,17 @@ const {
   REFERENCE_OUTPUT_VERSION_KEY
 } = require('../constants/reference-output-keys')
 
-const {
-  DETECT_SOURCES_MATCHCONTENT_KEY,
-  DETECT_SOURCES_MATCHTYPE_KEY
-} = require('../constants/source-keys-values')
-
 const allElementsHaveAllKeys = ({ jsonArray, keys }) => {
   const objectsMissingMandatoryKeys = jsonArray
-    .filter(jsonObj => (
-      !jsonObj.hasOwnProperty(DETECT_SOURCES_MATCHCONTENT_KEY) ||
-      !jsonObj.hasOwnProperty(DETECT_SOURCES_MATCHTYPE_KEY)
-    ))
+    .filter(jsonObj => {
+      let elementHasAllKeys = true
+      keys.forEach(key => {
+        if (!jsonObj.hasOwnProperty(key)) {
+          elementHasAllKeys = false
+        }
+      })
+      return !elementHasAllKeys
+    })
   return objectsMissingMandatoryKeys.length === 0
 }
 

@@ -106,7 +106,7 @@ const extractNameAndVersionFrom = ({ jsonObject, separator }) => {
   })
 }
 
-const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetect = '6.*' }) => {
+const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetect }) => {
   if (sourcesJsonArray.length === 0) {
     warningMessage(chalk`{yellow Input array is empty}; returning empty array.`)
     return []

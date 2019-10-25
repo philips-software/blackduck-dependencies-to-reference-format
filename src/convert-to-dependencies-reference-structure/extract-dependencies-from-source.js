@@ -121,7 +121,7 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
 
   infoMessage(chalk`Will filter dependencies from the input file based on these parameters specific to detect version {blue ${versionOfDetect}}:\n\tmandatoryKeys: {yellow ${mandatoryKeys}}\n\tkeyAndValuesToFilterFor:{yellow ${JSON.stringify(keyAndValuesToFilterFor)}}\n\tnameVersionSeparator:{yellow ${separator}}`)
 
-  if (!utilities.allElementsHaveAllKeys({ jsonArray: sourcesJsonArray, keys: mandatoryKeys })) {
+  if (!utilities.everyElementHasAllKeys({ jsonArray: sourcesJsonArray, keys: mandatoryKeys })) {
     throw chalk`There are objects missing the mandatory keys ${mandatoryKeys}, so returning null`
   }
 

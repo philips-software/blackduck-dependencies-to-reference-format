@@ -3,7 +3,7 @@ const {
   REFERENCE_OUTPUT_VERSION_KEY
 } = require('../constants/reference-output-keys')
 
-const allElementsHaveAllKeys = ({ jsonArray, keys }) => {
+const everyElementHasAllKeys = ({ jsonArray, keys }) => {
   const objectsMissingMandatoryKeys = jsonArray
     .filter(jsonObj => {
       let elementHasAllKeys = true
@@ -42,5 +42,5 @@ const sortByNameAndVersionCaseInsensitive = array => array
 
 module.exports = {
   sortByNameAndVersionCaseInsensitive,
-  allElementsHaveAllKeys
+  everyElementHasAllKeys
 }

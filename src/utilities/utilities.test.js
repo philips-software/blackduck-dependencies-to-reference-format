@@ -60,7 +60,7 @@ describe('sortByNameAndVersionCaseInsensitive', () => {
   })
 })
 
-describe('allElementsHaveAllKeys', () => {
+describe('everyElementHasAllKeys', () => {
   it('returns true ' +
   'if every element of the array contains all the keys as specified in the keys parameter',
   () => {
@@ -70,7 +70,7 @@ describe('allElementsHaveAllKeys', () => {
     ]
     const inputKeys = ['key1', 'key2']
     const expectedOutput = true
-    const actualOutput = utilities.allElementsHaveAllKeys({
+    const actualOutput = utilities.everyElementHasAllKeys({
       jsonArray: inputArray,
       keys: inputKeys
     })
@@ -87,7 +87,7 @@ describe('allElementsHaveAllKeys', () => {
     ]
     const inputKeys = ['key1', 'key2']
     const expectedOutput = false
-    const actualOutput = utilities.allElementsHaveAllKeys({
+    const actualOutput = utilities.everyElementHasAllKeys({
       jsonArray: inputArray,
       keys: inputKeys
     })

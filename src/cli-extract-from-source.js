@@ -5,6 +5,7 @@ const fs = require('fs-extra')
 const chalk = require('chalk')
 
 const {
+  setVerbose,
   infoMessage,
   errorMessage
 } = require('./logger/logger')
@@ -26,9 +27,10 @@ program
 const { input, output, verbose } = program
 
 const processFiles = async () => {
+  setVerbose(verbose)
+
   infoMessage(
-    chalk`Extracting information from {blue ${input}}...`,
-    chalk`Program arguments:\n    input: {blue ${input}}\n    output: {blue ${output}}\n    verbose: {blue ${verbose}}`
+    chalk`extract-from-source\n Program arguments:\n    input: {blue ${input}}\n    output: {blue ${output}}\n    verbose: {blue ${verbose}}`
   )
 
   if (!input) {

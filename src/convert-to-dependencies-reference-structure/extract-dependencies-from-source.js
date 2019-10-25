@@ -12,15 +12,15 @@ const {
   REFERENCE_OUTPUT_VERSION_KEY
 } = require('../constants/reference-output-keys')
 
+const {
+  DETECT_SOURCES_MATCHCONTENT_KEY,
+  DETECT_SOURCES_MATCHTYPE_KEY,
+  DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY,
+  DETECT_SOURCES_MATCHTYPE_VALUE_DIRECTDEPENDENCY,
+  DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY
+} = require('../constants/source-keys-values')
+
 const SUPPORTED_DETECT_VERSIONS = ['5.*', '6.5.2']
-
-const DETECT_SOURCES_MATCHCONTENT_KEY = 'Match content'
-const DETECT_SOURCES_MATCHTYPE_KEY = 'Match type'
-
-const DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY = 'File Dependency'
-
-const DETECT_SOURCES_MATCHTYPE_VALUE_DIRECTDEPENDENCY = 'Direct Dependency'
-const DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY = 'Transitive Dependency'
 
 const allElementsHaveAllKeys = ({ jsonArray, keys }) => {
   const objectsMissingMandatoryKeys = jsonArray

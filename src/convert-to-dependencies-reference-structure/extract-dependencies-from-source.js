@@ -108,6 +108,7 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
     warningMessage(chalk`{yellow Input array is empty}; returning empty array.`)
     return []
   }
+  logNumberOfDependenciesPerMatchType({ jsonArray: sourcesJsonArray })
 
   if (!isSupportedVersionOfDetect({ versionOfDetect })) {
     throw chalk`Unsupported version of the detect tool: {red ${versionOfDetect}}. Supported versions: {blue ${SUPPORTED_DETECT_VERSIONS}}`
@@ -115,22 +116,20 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
 
   const sourceParamsSpecificPerDetectVersion = getDetectDifferentiatorsForVersion({ versionOfDetect })
   const mandatoryKeys = sourceParamsSpecificPerDetectVersion.mandatoryKeys
+  const keyAndValuesToFilterFor = sourceParamsSpecificPerDetectVersion.keyAndValuesToFilterFor
+  const separator = sourceParamsSpecificPerDetectVersion.nameVersionSeparator
+
+  infoMessage(chalk`Will filter dependencies from the input file based on these parameters specific to detect version {blue ${versionOfDetect}}:\n\tmandatoryKeys: {yellow ${mandatoryKeys}}\n\tkeyAndValuesToFilterFor:{yellow ${JSON.stringify(keyAndValuesToFilterFor)}}\n\tnameVersionSeparator:{yellow ${separator}}`)
 
   if (!utilities.allElementsHaveAllKeys({ jsonArray: sourcesJsonArray, keys: mandatoryKeys })) {
     throw chalk`There are objects missing the mandatory keys ${mandatoryKeys}, so returning null`
   }
-
-  logNumberOfDependenciesPerMatchType({ jsonArray: sourcesJsonArray })
-
-  const keyAndValuesToFilterFor = sourceParamsSpecificPerDetectVersion.keyAndValuesToFilterFor
 
   const filteredDependencies = filterForKeyValues({
     array: sourcesJsonArray,
     key: keyAndValuesToFilterFor.key,
     keyValuesToMatchTo: keyAndValuesToFilterFor.values
   })
-
-  const separator = sourceParamsSpecificPerDetectVersion.nameVersionSeparator
 
   const filteredDependenciesInReferenceFormat = filteredDependencies.map(element =>
     extractNameAndVersionFrom({ jsonObject: element, separator })

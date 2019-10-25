@@ -24,4 +24,12 @@ describe('hasFileExtension', () => {
     expect(actualOutput)
       .toEqual(expectedOutput)
   })
+
+  it('returns false if the filename does not have any extension' +
+  '', () => {
+    const expectedOutput = false
+    const actualOutput = hasFileExtension({ fileName: 'myFile', extension: 'csv' })
+    expect(actualOutput)
+      .toEqual(expectedOutput)
+  })
 })

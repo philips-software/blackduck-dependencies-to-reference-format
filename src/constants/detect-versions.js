@@ -1,0 +1,2 @@
+exports.SUPPORTED_DETECT_VERSIONS = ['5.*', '6.*']
+exports.DEFAULT_DETECT_VERSION = '6.*'

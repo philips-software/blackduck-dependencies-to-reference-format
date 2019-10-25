@@ -20,7 +20,9 @@ const {
   DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY
 } = require('../constants/source-keys-values')
 
-const SUPPORTED_DETECT_VERSIONS = ['5.*', '6.5.2']
+const {
+  SUPPORTED_DETECT_VERSIONS
+} = require('../constants/detect-versions')
 
 const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
   switch (versionOfDetect) {
@@ -33,7 +35,7 @@ const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
       nameVersionSeparator: '@'
     })
 
-    case '6.5.2': return ({
+    case '6.*': return ({
       mandatoryKeys: [DETECT_SOURCES_MATCHCONTENT_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,
@@ -104,7 +106,7 @@ const extractNameAndVersionFrom = ({ jsonObject, separator }) => {
   })
 }
 
-const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetect = '6.5.2' }) => {
+const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetect = '6.*' }) => {
   if (sourcesJsonArray.length === 0) {
     warningMessage(chalk`{yellow Input array is empty}; returning empty array.`)
     return []

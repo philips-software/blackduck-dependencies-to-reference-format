@@ -17,7 +17,8 @@ const {
   DETECT_SOURCES_MATCHTYPE_KEY,
   DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY,
   DETECT_SOURCES_MATCHTYPE_VALUE_DIRECTDEPENDENCY,
-  DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY
+  DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY,
+  DETECT_SOURCES_MATCH_TYPE_VALUE_EXACT
 } = require('../constants/source-keys-values')
 
 const {
@@ -137,6 +138,15 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
   return utilities.sortByNameAndVersionCaseInsensitive(filteredDependenciesInReferenceFormat)
 }
 
+const filterExactMatchesInOriginalFormat = ({ sourcesJsonArray }) => {
+  return filterForKeyValues({
+    array: sourcesJsonArray,
+    key: DETECT_SOURCES_MATCHTYPE_KEY,
+    keyValuesToMatchTo: [DETECT_SOURCES_MATCH_TYPE_VALUE_EXACT]
+  })
+}
+
 module.exports = {
-  extractDependenciesToReferenceFormat
+  extractDependenciesToReferenceFormat,
+  filterExactMatchesInOriginalFormat
 }

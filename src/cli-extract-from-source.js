@@ -72,6 +72,21 @@ const processFiles = async () => {
   } catch (e) {
     errorMessage(chalk`Could not write to {blue ${output}}`, e)
   }
+
+  const exactMatchesFilename = `exactMatches_from_source.json`
+  const exactMatchesInOriginalFormat = extractor.filterExactMatchesInOriginalFormat({
+    sourcesJsonArray: rawDependenciesJsonArray
+  })
+
+  infoMessage(
+    chalk`Writing {blue ${exactMatchesInOriginalFormat.length}} elements to {blue ${exactMatchesFilename}}`
+  )
+
+  try {
+    await fs.writeJSON(exactMatchesFilename, exactMatchesInOriginalFormat, { spaces: 2, eol: '\n' })
+  } catch (e) {
+    errorMessage(chalk`Could not write to {blue ${exactMatchesFilename}}`, e)
+  }
 }
 
 processFiles()

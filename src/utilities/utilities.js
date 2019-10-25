@@ -3,6 +3,20 @@ const {
   REFERENCE_OUTPUT_VERSION_KEY
 } = require('../constants/reference-output-keys')
 
+const {
+  DETECT_SOURCES_MATCHCONTENT_KEY,
+  DETECT_SOURCES_MATCHTYPE_KEY
+} = require('../constants/source-keys-values')
+
+const allElementsHaveAllKeys = ({ jsonArray, keys }) => {
+  const objectsMissingMandatoryKeys = jsonArray
+    .filter(jsonObj => (
+      !jsonObj.hasOwnProperty(DETECT_SOURCES_MATCHCONTENT_KEY) ||
+      !jsonObj.hasOwnProperty(DETECT_SOURCES_MATCHTYPE_KEY)
+    ))
+  return objectsMissingMandatoryKeys.length === 0
+}
+
 const componentNameAndVersionCaseInsensitiveComparator = (a, b) => {
   const nameA = a[REFERENCE_OUTPUT_NAME_KEY].toUpperCase()
   const nameB = b[REFERENCE_OUTPUT_NAME_KEY].toUpperCase()
@@ -27,5 +41,6 @@ const sortByNameAndVersionCaseInsensitive = array => array
   .sort(componentNameAndVersionCaseInsensitiveComparator)
 
 module.exports = {
-  sortByNameAndVersionCaseInsensitive
+  sortByNameAndVersionCaseInsensitive,
+  allElementsHaveAllKeys
 }

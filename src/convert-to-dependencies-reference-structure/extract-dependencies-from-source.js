@@ -22,15 +22,6 @@ const {
 
 const SUPPORTED_DETECT_VERSIONS = ['5.*', '6.5.2']
 
-const allElementsHaveAllKeys = ({ jsonArray, keys }) => {
-  const objectsMissingMandatoryKeys = jsonArray
-    .filter(jsonObj => (
-      !jsonObj.hasOwnProperty(DETECT_SOURCES_MATCHCONTENT_KEY) ||
-      !jsonObj.hasOwnProperty(DETECT_SOURCES_MATCHTYPE_KEY)
-    ))
-  return objectsMissingMandatoryKeys.length === 0
-}
-
 const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
   switch (versionOfDetect) {
     case '5.*': return ({
@@ -126,7 +117,7 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
   const sourceParamsSpecificPerDetectVersion = getDetectDifferentiatorsForVersion({ versionOfDetect })
   const mandatoryKeys = sourceParamsSpecificPerDetectVersion.mandatoryKeys
 
-  if (!allElementsHaveAllKeys({ jsonArray: sourcesJsonArray, keys: mandatoryKeys })) {
+  if (!utilities.allElementsHaveAllKeys({ jsonArray: sourcesJsonArray, keys: mandatoryKeys })) {
     throw chalk`There are objects missing the mandatory keys ${mandatoryKeys}, so returning null`
   }
 

@@ -1,0 +1,2 @@
+exports.REFERENCE_OUTPUT_NAME_KEY = 'name'
+exports.REFERENCE_OUTPUT_VERSION_KEY = 'version'

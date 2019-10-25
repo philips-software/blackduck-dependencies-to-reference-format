@@ -1,0 +1,20 @@
+image: node:12.2.0
+
+stages:
+  - lint
+  - test
+
+lint:
+  stage:
+    lint
+  script:
+  - "echo linting"
+  - yarn
+  - yarn lint
+
+test:
+  stage:
+    test
+  script:
+  - "echo testing"
+  - yarn

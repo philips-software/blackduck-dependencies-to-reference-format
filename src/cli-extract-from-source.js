@@ -6,13 +6,13 @@ const chalk = require('chalk')
 
 const extractor = require('./convert-to-dependencies-reference-structure/extract-dependencies-from-source')
 const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-array.js')
+const { hasFileExtension } = require('./file-validators/file-extension-validator')
 
 program
   .version('0.0.1', '-v, --version')
   .option(
     '-i, --input [file]',
-    'specifies source json filename which contains the dependencies as identified by Synopsis Detect (obtained by manual step conversion .csv to .json)',
-    'source.json'
+    'specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'
   )
   .option('-o, --output [filename]', 'specifies the output filename', 'dependencies_from_source.json')
   .option('--verbose', 'Verbose output of commands and errors')
@@ -41,6 +41,16 @@ const processFiles = async () => {
     chalk`Extracting information from {blue ${input}}...`,
     chalk`Program arguments:\n    input: {blue ${input}}\n    output: {blue ${output}}\n    verbose: {blue ${verbose}}`
   )
+
+  if (!input) {
+    errorMessage(chalk`{red Mandatory input is missing}; program exits`)
+    return
+  }
+
+  if (!hasFileExtension({ fileName: input, extension: 'csv' })) {
+    errorMessage(chalk`Input file ${input} {red is not a csv file}; program exits`)
+    return
+  }
 
   const rawDependenciesJsonArray = await getAsyncJsonArrayFromCsv(input)
   infoMessage(chalk`{blue ${rawDependenciesJsonArray.length}} elements read from the csv file {blue ${input}}\n`)

@@ -11,7 +11,7 @@ const {
 } = require('./logger/logger')
 const {
   isSupportedVersionOfDetect
-} = require('./constants/detect-versions')
+} = require('./constants/supported-detect-versions')
 const extractor = require('./convert-to-dependencies-reference-structure/extract-dependencies-from-source')
 const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-array.js')
 const { hasFileExtension } = require('./file-validators/file-extension-validator')

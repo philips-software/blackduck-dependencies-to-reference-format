@@ -24,7 +24,7 @@ const {
 const {
   SUPPORTED_DETECT_VERSIONS,
   isSupportedVersionOfDetect
-} = require('../constants/detect-versions')
+} = require('../constants/supported-detect-versions')
 
 const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
   switch (versionOfDetect) {

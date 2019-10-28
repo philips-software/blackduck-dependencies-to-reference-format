@@ -17,6 +17,12 @@ const everyElementHasAllKeys = ({ jsonArray, keys }) => {
   return objectsMissingMandatoryKeys.length === 0
 }
 
+const filterForKeyValues = ({ jsonArray, key, keyValuesToMatchTo }) => {
+  return jsonArray.filter(element =>
+    !!keyValuesToMatchTo.includes(element[key])
+  )
+}
+
 const componentNameAndVersionCaseInsensitiveComparator = (a, b) => {
   const nameA = a[REFERENCE_OUTPUT_NAME_KEY].toUpperCase()
   const nameB = b[REFERENCE_OUTPUT_NAME_KEY].toUpperCase()
@@ -42,5 +48,6 @@ const sortByNameAndVersionCaseInsensitive = array => array
 
 module.exports = {
   sortByNameAndVersionCaseInsensitive,
-  everyElementHasAllKeys
+  everyElementHasAllKeys,
+  filterForKeyValues
 }

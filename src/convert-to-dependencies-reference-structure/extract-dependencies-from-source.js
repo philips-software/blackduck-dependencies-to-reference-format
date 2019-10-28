@@ -50,12 +50,6 @@ const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
   }
 }
 
-const filterForKeyValues = ({ array, key, keyValuesToMatchTo }) => {
-  return array.filter(element =>
-    !!keyValuesToMatchTo.includes(element[key])
-  )
-}
-
 const getUniqueValuesOfMatchType = ({ jsonArray }) => {
   return Array.from(new Set(jsonArray.map(el => el[DETECT_SOURCES_MATCHTYPE_KEY])))
 }
@@ -66,7 +60,7 @@ const logNumberOfDependenciesPerMatchType = ({ jsonArray }) => {
 
   uniqueValuesOfMatchType.forEach(
     (matchType) => {
-      const filteredElemsMatchingType = filterForKeyValues({ array: jsonArray, key: DETECT_SOURCES_MATCHTYPE_KEY, keyValuesToMatchTo: [matchType] })
+      const filteredElemsMatchingType = utilities.filterForKeyValues({ jsonArray, key: DETECT_SOURCES_MATCHTYPE_KEY, keyValuesToMatchTo: [matchType] })
       infoMessage(chalk` - Number of elements with 'Match type'={cyan ${matchType}}: ${filteredElemsMatchingType.length}`)
     }
   )
@@ -123,11 +117,11 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
   infoMessage(chalk`Will filter dependencies from the input file based on these parameters specific to detect version {blue ${versionOfDetect}}:\n\tmandatoryKeys: {yellow ${mandatoryKeys}}\n\tkeyAndValuesToFilterFor:{yellow ${JSON.stringify(keyAndValuesToFilterFor)}}\n\tnameVersionSeparator:{yellow ${separator}}`)
 
   if (!utilities.everyElementHasAllKeys({ jsonArray: sourcesJsonArray, keys: mandatoryKeys })) {
-    throw chalk`There are objects missing the mandatory keys ${mandatoryKeys}, so returning null`
+    throw chalk`There are objects missing the mandatory keys ${mandatoryKeys}; throwing exception`
   }
 
-  const filteredDependencies = filterForKeyValues({
-    array: sourcesJsonArray,
+  const filteredDependencies = utilities.filterForKeyValues({
+    jsonArray: sourcesJsonArray,
     key: keyAndValuesToFilterFor.key,
     keyValuesToMatchTo: keyAndValuesToFilterFor.values
   })
@@ -139,8 +133,8 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
 }
 
 const filterExactMatchesInOriginalFormat = ({ sourcesJsonArray }) => {
-  return filterForKeyValues({
-    array: sourcesJsonArray,
+  return utilities.filterForKeyValues({
+    jsonArray: sourcesJsonArray,
     key: DETECT_SOURCES_MATCHTYPE_KEY,
     keyValuesToMatchTo: [DETECT_SOURCES_MATCH_TYPE_VALUE_EXACT]
   })

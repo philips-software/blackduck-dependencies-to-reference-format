@@ -3,6 +3,11 @@
 const csvtojson = require('csvtojson')
 const fs = require('fs')
 const path = require('path')
+const chalk = require('chalk')
+
+const {
+  errorMessage
+} = require('../logger/logger')
 
 const getAsyncJsonArrayFromCsv = async ({ csvFileName }) => {
   let jsonArray
@@ -18,7 +23,7 @@ const getAsyncJsonArrayFromCsv = async ({ csvFileName }) => {
     }
     jsonArray = await csvtojson().fromFile(csvFileNameFullPath)
   } catch (e) {
-    console.error('Could not open' + csvFileName + 'for reading...', e)
+    errorMessage(chalk`Could not open ${csvFileName} for reading...`, e)
     return null
   }
   return jsonArray

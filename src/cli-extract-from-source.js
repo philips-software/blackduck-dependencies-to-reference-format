@@ -10,7 +10,9 @@ const {
   errorMessage
 } = require('./logger/logger')
 const {
-  isSupportedVersionOfDetect
+  isSupportedVersionOfDetect,
+  DEFAULT_DETECT_VERSION,
+  SUPPORTED_DETECT_VERSIONS
 } = require('./constants/supported-detect-versions')
 const extractor = require('./convert-to-dependencies-reference-structure/extract-dependencies-from-source')
 const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-array.js')
@@ -23,8 +25,8 @@ program
     '(mandatory) specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'
   )
   .option('-o, --output [filename]', '(optional) specifies the output filename', 'dependencies_from_source.json')
-  .option('-d, --detect [value]', '(mandatory) specifies the version of the synopsis detect tool that was used to generate the input file. Defaults to 5.2.0. One of: 5.2.0, 5.6.1')
-  .option('--verbose', 'Verbose output of commands and errors')
+  .option('-d, --detect [value]', `(optional) specifies the version of the synopsis detect tool that was used to generate the input file. One of: ${SUPPORTED_DETECT_VERSIONS}.`, DEFAULT_DETECT_VERSION)
+  .option('--verbose', '(optional) Verbose output of commands and errors')
 
   .parse(process.argv)
 
@@ -47,14 +49,9 @@ const processFiles = async () => {
     return
   }
 
-  if (!detect) {
-    errorMessage(chalk`{yellow Missing parameter detect}; program exits`)
-    return
-  }
-
   let versionOfDetect = detect
   if (!isSupportedVersionOfDetect({ versionOfDetect })) {
-    errorMessage(chalk`{red unsupported detect version: ${versionOfDetect}}; program exits`)
+    errorMessage(chalk`{red Unsupported detect version: ${versionOfDetect}}. Supported versions: ${SUPPORTED_DETECT_VERSIONS}. {red Program exits}`)
     return
   }
 

@@ -4,7 +4,7 @@ const csvtojson = require('csvtojson')
 const fs = require('fs')
 const path = require('path')
 
-const getAsyncJsonArrayFromCsv = async (csvFileName) => {
+const getAsyncJsonArrayFromCsv = async ({ csvFileName }) => {
   let jsonArray
   let csvFileNameFullPath
   try {

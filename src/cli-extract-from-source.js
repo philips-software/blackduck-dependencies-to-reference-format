@@ -58,7 +58,7 @@ const processFiles = async () => {
     return
   }
 
-  const rawDependenciesJsonArray = await getAsyncJsonArrayFromCsv(input)
+  const rawDependenciesJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: input })
   infoMessage(chalk`{blue ${rawDependenciesJsonArray.length}} elements read from the csv file {blue ${input}}\n`)
 
   const detectDependenciesInReferenceFormat = extractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect })

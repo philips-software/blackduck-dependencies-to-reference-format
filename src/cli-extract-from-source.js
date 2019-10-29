@@ -23,7 +23,7 @@ program
     '(mandatory) specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'
   )
   .option('-o, --output [filename]', '(optional) specifies the output filename', 'dependencies_from_source.json')
-  .option('-d, --detect [value]', '(mandatory) specifies the version of the synopsis detect tool that was used to generate the input file. Defaults to 5.*. One of: 5.*, 6.*')
+  .option('-d, --detect [value]', '(mandatory) specifies the version of the synopsis detect tool that was used to generate the input file. Defaults to 5.2.0. One of: 5.2.0, 5.6.1')
   .option('--verbose', 'Verbose output of commands and errors')
 
   .parse(process.argv)

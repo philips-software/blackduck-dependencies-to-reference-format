@@ -187,7 +187,7 @@ describe('extractDependenciesToReferenceFormat', () => {
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
           sourcesJsonArray: inputArray,
-          versionOfDetect: '6.*'
+          versionOfDetect: '5.6.1'
         })
       }).toThrow()
     })
@@ -198,7 +198,7 @@ describe('extractDependenciesToReferenceFormat', () => {
       const expectedOutput = []
       const actualOutput6 = depsExtractor.extractDependenciesToReferenceFormat({
         sourcesJsonArray: inputArray,
-        versionOfDetect: '6.*'
+        versionOfDetect: '5.6.1'
       })
       expect(actualOutput6)
         .toEqual(expectedOutput)
@@ -206,7 +206,7 @@ describe('extractDependenciesToReferenceFormat', () => {
   it('returns empty array when misconfiguring calling parameters, i.e. the json array input with the wrong detect version',
     () => {
       const inputArray = validSourceDetect561With1Direct2Transitive1ExactDependencies
-      const inputDetectVersion = '5.*'
+      const inputDetectVersion = '5.2.0'
       const expectedOutput = [
       ]
       const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({
@@ -220,7 +220,7 @@ describe('extractDependenciesToReferenceFormat', () => {
   it('returns an array of elements (formatted as in the reference format) for which the value of key `Match type` in the input array is `Transient Dependency` or `Direct Dependency`',
     () => {
       const inputArray = validSourceDetect561With1Direct2Transitive1ExactDependencies
-      const inputDetectVersion = '6.*'
+      const inputDetectVersion = '5.6.1'
       const expectedOutput = [
         {
           'name': '@ngtools/webpack',
@@ -246,7 +246,7 @@ describe('extractDependenciesToReferenceFormat', () => {
   it('returns an empty array if the input array has no element for which the value of key `Match type` is `Transient Dependency` or `Direct Dependency`',
     () => {
       const inputArray = validSourceDetect561With1ExactDependencies
-      const inputDetectVersion = '6.*'
+      const inputDetectVersion = '5.6.1'
       const expectedOutput = []
       const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({
         sourcesJsonArray: inputArray,
@@ -263,7 +263,7 @@ describe('extractDependenciesToReferenceFormat', () => {
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
           sourcesJsonArray: inputArray,
-          versionOfDetect: '6.*'
+          versionOfDetect: '5.6.1'
         })
       }).toThrow()
     })
@@ -275,7 +275,7 @@ describe('extractDependenciesToReferenceFormat', () => {
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
           sourcesJsonArray: inputArray,
-          versionOfDetect: '6.*'
+          versionOfDetect: '5.6.1'
         })
       }).toThrow()
     })
@@ -287,14 +287,14 @@ describe('extractDependenciesToReferenceFormat', () => {
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
           sourcesJsonArray: inputArray,
-          versionOfDetect: '6.*'
+          versionOfDetect: '5.6.1'
         })
       }).toThrow()
     })
   it('returns the array of dependencies in reference format with the name and version properly extracted, if the contents of the separator occurs multiple times in the Match Content',
     () => {
       const inputArray = [{ 'Match type': 'Transitive Dependency', 'Match content': 'the-slash/occurs-more-times/1.0.0' }]
-      const inputDetectVersion = '6.*'
+      const inputDetectVersion = '5.6.1'
       const expectedOutput = [{
         name: 'the-slash/occurs-more-times',
         version: '1.0.0'

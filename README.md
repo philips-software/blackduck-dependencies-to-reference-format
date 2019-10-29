@@ -12,7 +12,7 @@ yarn extract-from-source -- [options]
 | ----------------- |:-----:| -------------------------------------
 | --input [filename]|  -i   | (mandatory) Filename of the Detect source csv file to extract dependencies from.
 | --output [filename]|  -o   | (optional) Filename to which the list of dependencies is written (json format). If the file already exists, it will be overwritten. Default value: dependencies_from_source.json
-| --detect [value]|  -d   | (mandatory) Version fo the synopsis detect tool that was used to generate the input csv file. One of values in: [5.*, 6.*]
+| --detect [value]|  -d   | (mandatory) Version fo the synopsis detect tool that was used to generate the input csv file. One of values in: [5.2.0, 5.6.1]
 | --verbose         |       | Verbose output of commands and errors
 
 
@@ -21,7 +21,7 @@ yarn extract-from-source -- [options]
 
 ### extract-source-normalized
 ```
-yarn extract-from-source -- -i ./testData/uid-web_source_2019-10-22_141714.csv -d 5.*
+yarn extract-from-source -- -i ./testData/uid-web_source_2019-10-22_141714.csv -d 5.2.0
 ```
 
 ## Author

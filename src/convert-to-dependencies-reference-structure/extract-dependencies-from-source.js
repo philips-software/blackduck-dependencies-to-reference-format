@@ -28,7 +28,7 @@ const {
 
 const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
   switch (versionOfDetect) {
-    case '5.*': return ({
+    case '5.2.0': return ({
       mandatoryKeys: [DETECT_SOURCES_MATCHCONTENT_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,
@@ -37,7 +37,7 @@ const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
       nameVersionSeparator: '@'
     })
 
-    case '6.*': return ({
+    case '5.6.1': return ({
       mandatoryKeys: [DETECT_SOURCES_MATCHCONTENT_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,

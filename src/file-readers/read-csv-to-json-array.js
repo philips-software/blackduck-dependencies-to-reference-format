@@ -18,12 +18,12 @@ const getAsyncJsonArrayFromCsv = async ({ csvFileName }) => {
     } else {
       csvFileNameFullPath = path.join(__dirname, csvFileName)
       if (!fs.existsSync(csvFileNameFullPath)) {
-        throw new Error(`File ${csvFileName} could not be resolved to ${csvFileNameFullPath}`)
+        throw new Error(chalk`File ${csvFileName} {red could not be resolved} to ${csvFileNameFullPath}`)
       }
     }
     jsonArray = await csvtojson().fromFile(csvFileNameFullPath)
   } catch (e) {
-    errorMessage(chalk`Could not open ${csvFileName} for reading...`, e)
+    errorMessage(chalk`{red Could not open} ${csvFileName} for reading..., ${e}`)
     return null
   }
   return jsonArray

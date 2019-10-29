@@ -16,5 +16,9 @@ test:
   stage:
     test
   script:
-  - "echo testing"
+  - "echo testing, getting coverage"
   - yarn
+  - yarn coverage
+  artifacts:
+    paths:
+      - coverage

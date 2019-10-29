@@ -9,7 +9,7 @@ const validSourceDetect561With1Direct2Transitive1ExactDependencies = [
     'Component version name': '1.9.8',
     'Component origin version name': '1.9.8',
     'Match type': 'Direct Dependency',
-    'Match content': '@ngtools/webpack/1.9.8',
+    'Origin name id': '@ngtools/webpack/1.9.8',
     'Path': '',
     'Archive context': '',
     'Usage': 'DYNAMICALLY_LINKED',
@@ -28,7 +28,7 @@ const validSourceDetect561With1Direct2Transitive1ExactDependencies = [
     'Component version name': '3.0.1',
     'Component origin version name': '3.0.1',
     'Match type': 'Transitive Dependency',
-    'Match content': '@types/minimatch/3.0.1',
+    'Origin name id': '@types/minimatch/3.0.1',
     'Path': '',
     'Archive context': '',
     'Usage': 'DYNAMICALLY_LINKED',
@@ -47,7 +47,7 @@ const validSourceDetect561With1Direct2Transitive1ExactDependencies = [
     'Component version name': '3.0.8',
     'Component origin version name': '3.0.8',
     'Match type': 'Exact',
-    'Match content': '',
+    'Origin name id': '',
     'Path': 'src/App.js',
     'Archive context': '',
     'Usage': 'DYNAMICALLY_LINKED',
@@ -66,7 +66,7 @@ const validSourceDetect561With1Direct2Transitive1ExactDependencies = [
     'Component version name': '1.0.1',
     'Component origin version name': '1.0.1',
     'Match type': 'Transitive Dependency',
-    'Match content': 'react-app-polyfill/1.0.1',
+    'Origin name id': 'react-app-polyfill/1.0.1',
     'Path': '',
     'Archive context': '',
     'Usage': 'DYNAMICALLY_LINKED',
@@ -87,7 +87,7 @@ const validSourceDetect561With1DirectDependencies = [
     'Component version name': '1.9.8',
     'Component origin version name': '1.9.8',
     'Match type': 'Direct Dependency',
-    'Match content': '@ngtools/webpack/1.9.8',
+    'Origin name id': '@ngtools/webpack/1.9.8',
     'Path': '',
     'Archive context': '',
     'Usage': 'DYNAMICALLY_LINKED',
@@ -108,7 +108,7 @@ const validSourceDetect561With1ExactDependencies = [
     'Component version name': '3.0.8',
     'Component origin version name': '3.0.8',
     'Match type': 'Exact',
-    'Match content': '',
+    'Origin name id': '',
     'Path': 'src/App.js',
     'Archive context': '',
     'Usage': 'DYNAMICALLY_LINKED',
@@ -134,7 +134,7 @@ describe('filterExactMatchesInOriginalFormat', () => {
           'Component version name': '3.0.8',
           'Component origin version name': '3.0.8',
           'Match type': 'Exact',
-          'Match content': '',
+          'Origin name id': '',
           'Path': 'src/App.js',
           'Archive context': '',
           'Usage': 'DYNAMICALLY_LINKED',
@@ -180,9 +180,9 @@ describe('filterExactMatchesInOriginalFormat', () => {
 })
 
 describe('extractDependenciesToReferenceFormat', () => {
-  it('throws exception when input array does not contain the mandatory keys `Match content` and `Match type`',
+  it('throws exception when input array does not contain the mandatory keys `Origin name id` and `Match type`',
     () => {
-      const inputArray = [{ 'some key other than Match content ot Match type': 'some value' }]
+      const inputArray = [{ 'some key other than Origin name id ot Match type': 'some value' }]
 
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
@@ -256,9 +256,9 @@ describe('extractDependenciesToReferenceFormat', () => {
         .toEqual(expectedOutput)
     })
 
-  it('throws exception when input array contains a malformed `Match content` value, by missing the / character (expected format: name/version)',
+  it('throws exception when input array contains a malformed `Origin name id` value, by missing the / character (expected format: name/version)',
     () => {
-      const inputArray = [{ 'Match content': 'malformed-because-no-slash-1.1.0', 'Match type': 'Direct Dependency' }]
+      const inputArray = [{ 'Origin name id': 'malformed-because-no-slash-1.1.0', 'Match type': 'Direct Dependency' }]
 
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
@@ -268,9 +268,9 @@ describe('extractDependenciesToReferenceFormat', () => {
       }).toThrow()
     })
 
-  it('throws exception when input array contains a malformed `Match content` value, by missing the version after the last / character (expected format: name/version)',
+  it('throws exception when input array contains a malformed `Origin name id` value, by missing the version after the last / character (expected format: name/version)',
     () => {
-      const inputArray = [{ 'Match content': 'malformed-because-slash-at-the-end/', 'Match type': 'Direct Dependency' }]
+      const inputArray = [{ 'Origin name id': 'malformed-because-slash-at-the-end/', 'Match type': 'Direct Dependency' }]
 
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
@@ -280,9 +280,9 @@ describe('extractDependenciesToReferenceFormat', () => {
       }).toThrow()
     })
 
-  it('throws exception when input array contains a malformed `Match content` value, by missing the name before the last / character (expected format: name/version)',
+  it('throws exception when input array contains a malformed `Origin name id` value, by missing the name before the last / character (expected format: name/version)',
     () => {
-      const inputArray = [{ 'Match content': '/malformed-because-slash-first', 'Match type': 'Direct Dependency' }]
+      const inputArray = [{ 'Origin name id': '/malformed-because-slash-first', 'Match type': 'Direct Dependency' }]
 
       expect(() => {
         depsExtractor.extractDependenciesToReferenceFormat({
@@ -291,9 +291,9 @@ describe('extractDependenciesToReferenceFormat', () => {
         })
       }).toThrow()
     })
-  it('returns the array of dependencies in reference format with the name and version properly extracted, if the contents of the separator occurs multiple times in the Match Content',
+  it('returns the array of dependencies in reference format with the name and version properly extracted, if the contents of the separator occurs multiple times in the Origin name id',
     () => {
-      const inputArray = [{ 'Match type': 'Transitive Dependency', 'Match content': 'the-slash/occurs-more-times/1.0.0' }]
+      const inputArray = [{ 'Match type': 'Transitive Dependency', 'Origin name id': 'the-slash/occurs-more-times/1.0.0' }]
       const inputDetectVersion = '5.6.1'
       const expectedOutput = [{
         name: 'the-slash/occurs-more-times',

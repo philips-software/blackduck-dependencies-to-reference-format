@@ -1,4 +1,4 @@
-exports.DETECT_SOURCES_MATCHCONTENT_KEY = 'Match content'
+exports.DETECT_SOURCES_ORIGINNAMEID_KEY = 'Origin name id'
 exports.DETECT_SOURCES_MATCHTYPE_KEY = 'Match type'
 
 exports.DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY = 'File Dependency'

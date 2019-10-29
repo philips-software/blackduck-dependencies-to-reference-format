@@ -13,7 +13,7 @@ const {
 } = require('../constants/reference-output-keys')
 
 const {
-  DETECT_SOURCES_MATCHCONTENT_KEY,
+  DETECT_SOURCES_ORIGINNAMEID_KEY,
   DETECT_SOURCES_MATCHTYPE_KEY,
   DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY,
   DETECT_SOURCES_MATCHTYPE_VALUE_DIRECTDEPENDENCY,
@@ -29,16 +29,16 @@ const {
 const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
   switch (versionOfDetect) {
     case '5.2.0': return ({
-      mandatoryKeys: [DETECT_SOURCES_MATCHCONTENT_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
+      mandatoryKeys: [DETECT_SOURCES_ORIGINNAMEID_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,
         values: [DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY]
       },
-      nameVersionSeparator: '@'
+      nameVersionSeparator: '/'
     })
 
     case '5.6.1': return ({
-      mandatoryKeys: [DETECT_SOURCES_MATCHCONTENT_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
+      mandatoryKeys: [DETECT_SOURCES_ORIGINNAMEID_KEY, DETECT_SOURCES_MATCHTYPE_KEY],
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,
         values: [DETECT_SOURCES_MATCHTYPE_VALUE_DIRECTDEPENDENCY, DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY]
@@ -67,30 +67,30 @@ const logNumberOfDependenciesPerMatchType = ({ jsonArray }) => {
   infoMessage(chalk`\n`)
 }
 
-const throwIfInvalidMatchContentStructure = ({ matchContentString, separator }) => {
-  let foundMalformedMatchContent = false
-  const lastIndexOfSeparator = matchContentString.lastIndexOf(separator)
+const throwIfStringMalformed = ({ key, nameSeparatorVersionString, separator }) => {
+  let stringIsMalformed = false
+  const lastIndexOfSeparator = nameSeparatorVersionString.lastIndexOf(separator)
   if (lastIndexOfSeparator < 0) {
-    errorMessage(chalk`{red Expected ${separator}} to separate name from version in value for key ${DETECT_SOURCES_MATCHCONTENT_KEY}: ${matchContentString}`)
-    foundMalformedMatchContent = true
+    errorMessage(chalk`{red Expected ${separator}} to separate name from version in value for key ${DETECT_SOURCES_ORIGINNAMEID_KEY}: ${nameSeparatorVersionString}`)
+    stringIsMalformed = true
   } else {
-    if (lastIndexOfSeparator === 0 || lastIndexOfSeparator === matchContentString.length - 1) {
-      errorMessage(chalk`Expected that last occurence of ${separator} is prefixed and suffixed by a string in: ${matchContentString}`)
-      foundMalformedMatchContent = true
+    if (lastIndexOfSeparator === 0 || lastIndexOfSeparator === nameSeparatorVersionString.length - 1) {
+      errorMessage(chalk`Expected that last occurence of ${separator} is prefixed and suffixed by a string in: ${nameSeparatorVersionString}`)
+      stringIsMalformed = true
     }
   }
-  if (foundMalformedMatchContent) {
-    throw chalk`Value {red ${matchContentString}} of key ${DETECT_SOURCES_MATCHCONTENT_KEY} should be formatted as 'name${separator}version'`
+  if (stringIsMalformed) {
+    throw chalk`Value {red ${nameSeparatorVersionString}} of key ${key} should be formatted as 'name${separator}version'`
   }
 }
 
 const extractNameAndVersionFrom = ({ jsonObject, separator }) => {
-  const nameSeparatorVersion = jsonObject[DETECT_SOURCES_MATCHCONTENT_KEY]
-  throwIfInvalidMatchContentStructure({ matchContentString: nameSeparatorVersion, separator })
+  const nameSeparatorVersionString = jsonObject[DETECT_SOURCES_ORIGINNAMEID_KEY]
+  throwIfStringMalformed({ key: DETECT_SOURCES_ORIGINNAMEID_KEY, nameSeparatorVersionString: nameSeparatorVersionString, separator })
 
-  const lastIndexOfSeparator = nameSeparatorVersion.lastIndexOf(separator)
-  const name = jsonObject[DETECT_SOURCES_MATCHCONTENT_KEY].slice(0, lastIndexOfSeparator)
-  const version = jsonObject[DETECT_SOURCES_MATCHCONTENT_KEY].slice(lastIndexOfSeparator + 1, jsonObject[DETECT_SOURCES_MATCHCONTENT_KEY].length)
+  const lastIndexOfSeparator = nameSeparatorVersionString.lastIndexOf(separator)
+  const name = jsonObject[DETECT_SOURCES_ORIGINNAMEID_KEY].slice(0, lastIndexOfSeparator)
+  const version = jsonObject[DETECT_SOURCES_ORIGINNAMEID_KEY].slice(lastIndexOfSeparator + 1, jsonObject[DETECT_SOURCES_ORIGINNAMEID_KEY].length)
 
   return ({
     [REFERENCE_OUTPUT_NAME_KEY]: name,

@@ -61,7 +61,7 @@ const processFiles = async () => {
   const detectDependenciesInReferenceFormat = extractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect })
 
   infoMessage(
-    chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements to {blue ${output}}`
+    chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements unique by keys name and version to {blue ${output}}`
   )
 
   try {

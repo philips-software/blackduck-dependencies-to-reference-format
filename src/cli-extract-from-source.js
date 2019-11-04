@@ -40,7 +40,7 @@ const processFiles = async () => {
   )
 
   if (!input) {
-    errorMessage(chalk`{red Mandatory input is missing}; program exits`)
+    errorMessage(chalk`{red Mandatory input parameter is missing} (run 'extract-from-source --help' for usage); program exits`)
     return
   }
 

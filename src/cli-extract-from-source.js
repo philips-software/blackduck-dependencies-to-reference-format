@@ -19,7 +19,7 @@ const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-ar
 const { hasFileExtension } = require('./file-validators/file-extension-validator')
 
 program
-  .version('1.0.1', '-v, --version')
+  .version('1.0.2', '-v, --version')
   .option(
     '-i, --input [file]',
     '(mandatory) specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'

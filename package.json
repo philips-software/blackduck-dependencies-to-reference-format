@@ -7,7 +7,7 @@
     "lint": "yarn standard",
     "lint:fix": "yarn standard --fix",
     "test": "jest src --passWithNoTests",
-    "coverage": "jest --collectCoverageFrom=src/**.js --coverage src",
+    "coverage": "jest --coverage src",
     "extract-from-source": "./src/cli-extract-from-source.js"
   },
   "author": "Sanda Contiu",
@@ -28,7 +28,7 @@
       "src/**.js",
       "src/**/*.js",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/src/index.js",
+      "!<rootDir>/src/cli-extarct-from-source.js",
       "!**/*.test.js"
     ],
     "setupFilesAfterEnv": [

@@ -31,6 +31,7 @@ yarn extract-from-source [options]
 | --input [filename] |  -i   | (mandatory) Filename of the Detect source csv file to extract dependencies from.
 | --output [filename]|  -o   | (optional) Filename to which the list of dependencies is written (json format). If the file already exists, it will be overwritten. Default value: dependencies_from_source.json
 | --detect [value]   |  -d   | (optional) Version of the synopsis detect tool that was used to generate the input source csv file. One of values in: [5.2.0, 5.6.1]. Defaults to 5.6.1
+| --separator [value]|  -s   | (optional) The character which separates the dependency name from its version in column Origin name id from the input fil. Defaults to `/`. Known values for the separator: / for Javascript, : for Java
 | --verbose          |       | Verbose output of commands and errors
 | --help             | -h    | Displays usage information
 | --version          | -v    | Displays version number

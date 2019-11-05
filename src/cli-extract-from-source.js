@@ -26,17 +26,18 @@ program
   )
   .option('-o, --output [filename]', '(optional) specifies the output filename', 'dependencies_from_source.json')
   .option('-d, --detect [value]', `(optional) specifies the version of the synopsis detect tool that was used to generate the input file. One of: ${SUPPORTED_DETECT_VERSIONS}.`, DEFAULT_DETECT_VERSION)
+  .option('-s, --separator [value]', '(optional) specifies the separator character for the Origin name id key. Defaults to `/`. Known values for the separator: / for Javascript, : for Java', '/')
   .option('--verbose', '(optional) Verbose output of commands and errors')
 
   .parse(process.argv)
 
-const { input, output, detect, verbose } = program
+const { input, output, detect, separator, verbose } = program
 
 const processFiles = async () => {
   setVerbose(verbose)
 
   infoMessage(
-    chalk`extract-from-source\n Program arguments:\n    input: {blue ${input}}\n    output: {blue ${output}}\n    detect: {blue ${detect}}\n    verbose: {blue ${verbose}}`
+    chalk`extract-from-source\n Program arguments:\n    input: {blue ${input}}\n    output: {blue ${output}}\n    detect: {blue ${detect}}\n    separator: {blue ${separator}}\n    verbose: {blue ${verbose}}`
   )
 
   if (!input) {
@@ -58,7 +59,7 @@ const processFiles = async () => {
   const rawDependenciesJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: input })
   infoMessage(chalk`{blue ${rawDependenciesJsonArray.length}} elements read from the csv file {blue ${input}}\n`)
 
-  const detectDependenciesInReferenceFormat = extractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect })
+  const detectDependenciesInReferenceFormat = extractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect, nameVersionSeparator: separator })
 
   infoMessage(
     chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements unique by keys name and version to {blue ${output}}`

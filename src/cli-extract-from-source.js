@@ -19,7 +19,7 @@ const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-ar
 const { hasFileExtension } = require('./file-validators/file-extension-validator')
 
 program
-  .version('0.0.1', '-v, --version')
+  .version('1.0.1', '-v, --version')
   .option(
     '-i, --input [file]',
     '(mandatory) specifies source.csv filename which contains the dependencies as identified by Synopsis Detect'
@@ -40,7 +40,7 @@ const processFiles = async () => {
   )
 
   if (!input) {
-    errorMessage(chalk`{red Mandatory input is missing}; program exits`)
+    errorMessage(chalk`{red Mandatory input parameter is missing} (run 'extract-from-source --help' for usage); program exits`)
     return
   }
 
@@ -61,7 +61,7 @@ const processFiles = async () => {
   const detectDependenciesInReferenceFormat = extractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect })
 
   infoMessage(
-    chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements to {blue ${output}}`
+    chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements unique by keys name and version to {blue ${output}}`
   )
 
   try {

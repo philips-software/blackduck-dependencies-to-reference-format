@@ -129,7 +129,11 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
   const filteredDependenciesInReferenceFormat = filteredDependencies.map(element =>
     extractNameAndVersionFrom({ jsonObject: element, separator })
   )
-  return utilities.sortByNameAndVersionCaseInsensitive(filteredDependenciesInReferenceFormat)
+  const uniqueDependenciesInReferenceFormat = utilities.getUniquesByKeyValues({
+    jsonArray: filteredDependenciesInReferenceFormat,
+    keys: [REFERENCE_OUTPUT_NAME_KEY, REFERENCE_OUTPUT_VERSION_KEY]
+  })
+  return utilities.sortByNameAndVersionCaseInsensitive(uniqueDependenciesInReferenceFormat)
 }
 
 const filterExactMatchesInOriginalFormat = ({ sourcesJsonArray }) => {

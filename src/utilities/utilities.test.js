@@ -172,3 +172,69 @@ describe('filterForKeyValues', () => {
         .toEqual(expectedOutput)
     })
 })
+
+describe('getUniquesByKeyValues', () => {
+  it('returns the unique elements of the array (unique by the combination of key values for the specified keys)',
+    () => {
+      const inputArray = [
+        { key1: 'a', key2: 'b', key3: 'c' },
+        { key1: 'x', key2: 'y', key3: 'z' },
+        { key1: 'a', key2: 'b', key3: 'the first 2 key values are a duplicate of the 1st element' }
+      ]
+      const inputKeys = ['key1', 'key2']
+      const expectedOutput = [
+        { key1: 'a', key2: 'b', key3: 'c' },
+        { key1: 'x', key2: 'y', key3: 'z' }
+      ]
+      const actualOutput = utilities.getUniquesByKeyValues({
+        jsonArray: inputArray,
+        keys: inputKeys
+      })
+      expect(actualOutput)
+        .toEqual(expectedOutput)
+    })
+
+  it('returns an empty array if the list of keys is empty',
+    () => {
+      const inputArray = [
+        { key1: 'a' },
+        { key1: 'b' }
+      ]
+      const inputKeys = []
+      const expectedOutput = []
+      const actualOutput = utilities.getUniquesByKeyValues({
+        jsonArray: inputArray,
+        keys: inputKeys
+      })
+      expect(actualOutput)
+        .toEqual(expectedOutput)
+    })
+
+  it('returns an empty array if the input JSON array is empty',
+    () => {
+      const inputArray = []
+      const inputKeys = ['key1']
+      const expectedOutput = []
+      const actualOutput = utilities.getUniquesByKeyValues({
+        jsonArray: inputArray,
+        keys: inputKeys
+      })
+      expect(actualOutput)
+        .toEqual(expectedOutput)
+    })
+
+  it('throws exception if not all elements in the array contain all keys as specified in the parameter',
+    () => {
+      const inputArray = [
+        { key1: 'a', key2: 'b', key3: 'next element does not have key3' },
+        { key1: 'c', key2: 'd' }
+      ]
+      const inputKeys = ['key1', 'key3']
+      expect(() => {
+        utilities.getUniquesByKeyValues({
+          jsonArray: inputArray,
+          keys: inputKeys
+        })
+      }).toThrow()
+    })
+})

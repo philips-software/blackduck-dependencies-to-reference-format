@@ -46,8 +46,31 @@ const componentNameAndVersionCaseInsensitiveComparator = (a, b) => {
 const sortByNameAndVersionCaseInsensitive = array => array
   .sort(componentNameAndVersionCaseInsensitiveComparator)
 
+const getUniquesByKeyValues = ({ jsonArray, keys }) => {
+  if (keys && keys.length === 0) {
+    return []
+  }
+  const uniqueElements = []
+  const map = new Map()
+  jsonArray.forEach((element) => {
+    let elementHash = ''
+    keys.forEach(key => {
+      if (!Object.keys(element).includes(key)) {
+        throw new Error(`Object ${element} does not include key ${key}`)
+      }
+      elementHash = `${elementHash}${element[key]}`
+    })
+    if (!map.has(elementHash)) {
+      map.set(elementHash, true)
+      uniqueElements.push(element)
+    }
+  })
+  return uniqueElements
+}
+
 module.exports = {
   sortByNameAndVersionCaseInsensitive,
   everyElementHasAllKeys,
-  filterForKeyValues
+  filterForKeyValues,
+  getUniquesByKeyValues
 }

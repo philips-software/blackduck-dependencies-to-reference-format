@@ -99,6 +99,46 @@ const validSourceDetect561With1DirectDependencies = [
     'Snippet Review status': ''
   }
 ]
+const validSourceDetect561With1DirectDependencies1TransientDependenciesWhichAreTheSame = [
+  {
+    'Component id': 'comp_id_1',
+    'Version id': 'version_id_1',
+    'Origin id': 'origin_id_1',
+    'Component name': '@types/minimatch',
+    'Component version name': '3.0.1',
+    'Component origin version name': '3.0.1',
+    'Match type': 'Direct Dependency',
+    'Match content': '@types/minimatch/3.0.1',
+    'Path': '',
+    'Archive context': '',
+    'Usage': 'DYNAMICALLY_LINKED',
+    'Adjusted': 'false',
+    'Component policy status': '',
+    'Overridden By': '',
+    'Origin name': 'npmjs',
+    'Origin name id': '@types/minimatch/3.0.1',
+    'Snippet Review status': ''
+  },
+  {
+    'Component id': 'comp_id_1',
+    'Version id': 'version_id_1',
+    'Origin id': 'origin_id_1',
+    'Component name': '@types/minimatch',
+    'Component version name': '3.0.1',
+    'Component origin version name': '3.0.1',
+    'Match type': 'Transitive Dependency',
+    'Match content': '@types/minimatch/3.0.1',
+    'Path': '',
+    'Archive context': '',
+    'Usage': 'DYNAMICALLY_LINKED',
+    'Adjusted': 'false',
+    'Component policy status': '',
+    'Overridden By': '',
+    'Origin name': 'npmjs',
+    'Origin name id': '@types/minimatch/3.0.1',
+    'Snippet Review status': ''
+  }
+]
 const validSourceDetect561With1ExactDependencies = [
   {
     'Component id': 'comp_id_3',
@@ -233,6 +273,24 @@ describe('extractDependenciesToReferenceFormat', () => {
         {
           'name': 'react-app-polyfill',
           'version': '1.0.1'
+        }
+      ]
+      const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({
+        sourcesJsonArray: inputArray,
+        versionOfDetect: inputDetectVersion
+      })
+      expect(actualOutput)
+        .toEqual(expectedOutput)
+    })
+
+  it('returns an array of elements with unique elements (unique by name + version), if the input array contains the same dependency as both `Transient Dependency` and `Direct Dependency`',
+    () => {
+      const inputArray = validSourceDetect561With1DirectDependencies1TransientDependenciesWhichAreTheSame
+      const inputDetectVersion = '5.6.1'
+      const expectedOutput = [
+        {
+          'name': '@types/minimatch',
+          'version': '3.0.1'
         }
       ]
       const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({

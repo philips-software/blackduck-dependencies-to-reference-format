@@ -1,0 +1,3 @@
+Component id,Version id,Origin id,Component name,Component version name,Component origin version name,Match type,Match content,Path,Archive context,Usage,Adjusted,Component policy status,Overridden By,Origin name,Origin name id,Snippet Review status
+comp_id_1,version_id_1,origin_id_1,Animal Sniffer Annotations,1.17,1.17,Transitive Dependency,org.codehaus.mojo:animal-sniffer-annotations:1.17,,,DYNAMICALLY_LINKED,false,,,maven,org.codehaus.mojo:animal-sniffer-annotations:1.17,
+comp_id_2,version_id_2,origin_id_2,ANTLR,2.7.7,2.7.7,Transitive Dependency,antlr:antlr:2.7.7,,,DYNAMICALLY_LINKED,false,,,maven,antlr:antlr:2.7.7,

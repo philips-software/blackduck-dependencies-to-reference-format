@@ -45,7 +45,12 @@ yarn extract-from-source [options]
 ```
 yarn extract-from-source -i ./testData/valid_source_detect_5_6_1.csv
 ```
-
+```
+yarn extract-from-source -i ./testData/valid_source_detect_5_6_1.csv --separator /
+```
+```
+yarn extract-from-source -i ./testData/valid_source_detect_5_6_1_nameVersionSeparatedByColumn.csv --separator :
+```
 ## Technology stack
 - Javascript
 - This software is intended to be used standalone, as a command-line tool

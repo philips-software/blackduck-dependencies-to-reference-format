@@ -50,5 +50,14 @@
       "browser",
       "jest"
     ]
-  }
+  },
+  "keywords": [
+    "dependencies",
+    "detect",
+    "blackduck",
+    "black duck",
+    "synopsys",
+    "extract",
+    "retrieve"
+  ]
 }

@@ -89,3 +89,12 @@ See [LICENSE.md](./LICENSE.md)
 
 ## Author
 Sanda Contiu
+
+## Keywords
+  - dependencies
+  - detect
+  - blackduck
+  - black duck
+  - synopsys
+  - extract
+  - retrieve

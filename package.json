@@ -28,7 +28,7 @@
       "src/**.js",
       "src/**/*.js",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/src/cli-extarct-from-source.js",
+      "!<rootDir>/src/cli-extract-from-source.js",
       "!**/*.test.js"
     ],
     "setupFilesAfterEnv": [

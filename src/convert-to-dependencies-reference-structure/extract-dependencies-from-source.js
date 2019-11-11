@@ -33,8 +33,7 @@ const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,
         values: [DETECT_SOURCES_MATCH_TYPE_VALUE_FILE_DEPENDENCY]
-      },
-      nameVersionSeparator: '/'
+      }
     })
 
     case '5.6.1': return ({
@@ -42,8 +41,7 @@ const getDetectDifferentiatorsForVersion = ({ versionOfDetect }) => {
       keyAndValuesToFilterFor: {
         key: DETECT_SOURCES_MATCHTYPE_KEY,
         values: [DETECT_SOURCES_MATCHTYPE_VALUE_DIRECTDEPENDENCY, DETECT_SOURCES_MATCHTYPE_VALUE_TRANSIENTDEPENDENCY]
-      },
-      nameVersionSeparator: '/'
+      }
     })
     default :
       errorMessage(`could not find differentiators for ${versionOfDetect}`)
@@ -98,7 +96,7 @@ const extractNameAndVersionFrom = ({ jsonObject, separator }) => {
   })
 }
 
-const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetect }) => {
+const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetect, nameVersionSeparator }) => {
   if (sourcesJsonArray.length === 0) {
     warningMessage(chalk`{yellow Input array is empty}; returning empty array.`)
     return []
@@ -112,7 +110,7 @@ const extractDependenciesToReferenceFormat = ({ sourcesJsonArray, versionOfDetec
   const sourceParamsSpecificPerDetectVersion = getDetectDifferentiatorsForVersion({ versionOfDetect })
   const mandatoryKeys = sourceParamsSpecificPerDetectVersion.mandatoryKeys
   const keyAndValuesToFilterFor = sourceParamsSpecificPerDetectVersion.keyAndValuesToFilterFor
-  const separator = sourceParamsSpecificPerDetectVersion.nameVersionSeparator
+  const separator = nameVersionSeparator
 
   infoMessage(chalk`Will filter dependencies from the input file based on these parameters specific to detect version {blue ${versionOfDetect}}:\n\tmandatoryKeys: {yellow ${mandatoryKeys}}\n\tkeyAndValuesToFilterFor:{yellow ${JSON.stringify(keyAndValuesToFilterFor)}}\n\tnameVersionSeparator:{yellow ${separator}}`)
 

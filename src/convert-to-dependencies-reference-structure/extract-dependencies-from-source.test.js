@@ -277,7 +277,8 @@ describe('extractDependenciesToReferenceFormat', () => {
       ]
       const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({
         sourcesJsonArray: inputArray,
-        versionOfDetect: inputDetectVersion
+        versionOfDetect: inputDetectVersion,
+        nameVersionSeparator: '/'
       })
       expect(actualOutput)
         .toEqual(expectedOutput)
@@ -295,7 +296,8 @@ describe('extractDependenciesToReferenceFormat', () => {
       ]
       const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({
         sourcesJsonArray: inputArray,
-        versionOfDetect: inputDetectVersion
+        versionOfDetect: inputDetectVersion,
+        nameVersionSeparator: '/'
       })
       expect(actualOutput)
         .toEqual(expectedOutput)
@@ -359,7 +361,8 @@ describe('extractDependenciesToReferenceFormat', () => {
       }]
       const actualOutput = depsExtractor.extractDependenciesToReferenceFormat({
         sourcesJsonArray: inputArray,
-        versionOfDetect: inputDetectVersion
+        versionOfDetect: inputDetectVersion,
+        nameVersionSeparator: '/'
       })
       expect(actualOutput)
         .toEqual(expectedOutput)

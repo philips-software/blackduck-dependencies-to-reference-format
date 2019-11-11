@@ -1,13 +1,13 @@
 {
   "name": "blackduck-dependencies-to-reference-format",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Extracts dependencies from the output (source csv) of the Detect tool from BlackDuck (Synopsis), to a reference format. This reference format is a JSON file containing arrays of objects with keys name and version.",
   "main": "index.js",
   "scripts": {
     "lint": "yarn standard",
     "lint:fix": "yarn standard --fix",
     "test": "jest src --passWithNoTests",
-    "coverage": "jest --collectCoverageFrom=src/**.js --coverage src",
+    "coverage": "jest --coverage src",
     "extract-from-source": "./src/cli-extract-from-source.js"
   },
   "author": "Sanda Contiu",
@@ -28,7 +28,7 @@
       "src/**.js",
       "src/**/*.js",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/src/index.js",
+      "!<rootDir>/src/cli-extract-from-source.js",
       "!**/*.test.js"
     ],
     "setupFilesAfterEnv": [
@@ -50,5 +50,14 @@
       "browser",
       "jest"
     ]
-  }
+  },
+  "keywords": [
+    "dependencies",
+    "detect",
+    "blackduck",
+    "black duck",
+    "synopsys",
+    "extract",
+    "retrieve"
+  ]
 }

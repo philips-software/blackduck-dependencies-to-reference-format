@@ -16,3 +16,4 @@ yarn-error.log*
 # output 
 dependencies_from_source.json
 exactMatches_from_source.json
+dependencies_with_licenses.json

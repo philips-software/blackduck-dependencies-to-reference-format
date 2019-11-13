@@ -19,6 +19,8 @@ const licensesExtractor = require('./convert-to-dependencies-reference-structure
 
 const { getAsyncJsonArrayFromCsv } = require('./file-readers/read-csv-to-json-array.js')
 const { hasFileExtension } = require('./file-validators/file-extension-validator')
+const exactMatchesFilename = `exactMatches_from_source.json`
+const licensesOutputFilename = 'dependencies_with_licenses.json'
 
 program
   .version('1.0.3', '-v, --version')
@@ -62,14 +64,54 @@ const areInputParametersValid = ({ input, licenses, versionOfDetect }) => {
   return true
 }
 
-const readLicensesAndExtendReferenceFormat = async ({ licensesFile: licenses, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator }) => {
+const readLicensesToExtendedReferenceFormatAndWriteToFile = async ({ licensesFile, sbomJsonArray, nameVersionSeparator, licensesOutputFilename }) => {
   infoMessage(chalk`Reading from the licenses file...\n`)
   const componentsJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: licenses })
   infoMessage(chalk`{blue ${componentsJsonArray.length}} elements read from the csv file {blue ${licenses}}\n`)
 
-  return licensesExtractor.extractLicensesToExtendedReferenceFormat({
-    componentsJsonArray, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator
+  const licensesInReferenceFormat = licensesExtractor.extractLicensesToExtendedReferenceFormat({
+    componentsJsonArray, sbomJsonArray, nameVersionSeparator: separator
   })
+
+  infoMessage(chalk`Writing dependencies with licenses to file ${licensesOutputFilename}...\n`)
+  try {
+    await fs.writeJSON(licensesOutputFilename, licensesInReferenceFormat, { spaces: 2, eol: '\n' })
+  } catch (e) {
+    errorMessage(chalk`Could not write to {blue ${licensesOutputFilename}}`, e)
+  }
+  return licensesInReferenceFormat
+}
+
+const readDependenciesToReferenceFormatAndWriteToFiles = async ({ sourcesFile, versionOfDetect, nameVersionSeparator, dependenciesOutputFilename, exactMatchesFilename }) => {
+  const rawDependenciesJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: input })
+  infoMessage(chalk`{blue ${rawDependenciesJsonArray.length}} elements read from the csv file {blue ${input}}\n`)
+
+  const detectDependenciesInReferenceFormat = dependenciesExtractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect, nameVersionSeparator: separator })
+  infoMessage(
+    chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements unique by keys name and version to {blue ${dependenciesOutputFilename}}\n`
+  )
+
+  try {
+    await fs.writeJSON(dependenciesOutputFilename, detectDependenciesInReferenceFormat, { spaces: 2, eol: '\n' })
+  } catch (e) {
+    errorMessage(chalk`Could not write to {blue ${dependenciesOutputFilename}}`, e)
+  }
+
+  const exactMatchesInOriginalFormat = dependenciesExtractor.filterExactMatchesInOriginalFormat({
+    sourcesJsonArray: rawDependenciesJsonArray
+  })
+
+  infoMessage(
+    chalk`Writing {blue ${exactMatchesInOriginalFormat.length}} elements to {blue ${exactMatchesFilename}}\n`
+  )
+
+  try {
+    await fs.writeJSON(exactMatchesFilename, exactMatchesInOriginalFormat, { spaces: 2, eol: '\n' })
+  } catch (e) {
+    errorMessage(chalk`Could not write to {blue ${exactMatchesFilename}}`, e)
+  }
+
+  return detectDependenciesInReferenceFormat
 }
 
 const processFiles = async () => {
@@ -85,46 +127,10 @@ const processFiles = async () => {
     return
   }
 
-  const rawDependenciesJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: input })
-  infoMessage(chalk`{blue ${rawDependenciesJsonArray.length}} elements read from the csv file {blue ${input}}\n`)
-
-  const detectDependenciesInReferenceFormat = dependenciesExtractor.extractDependenciesToReferenceFormat({ sourcesJsonArray: rawDependenciesJsonArray, versionOfDetect, nameVersionSeparator: separator })
-
-  infoMessage(
-    chalk`Writing {blue ${detectDependenciesInReferenceFormat.length}} elements unique by keys name and version to {blue ${output}}\n`
-  )
-
-  try {
-    await fs.writeJSON(output, detectDependenciesInReferenceFormat, { spaces: 2, eol: '\n' })
-  } catch (e) {
-    errorMessage(chalk`Could not write to {blue ${output}}`, e)
-  }
-
-  const exactMatchesFilename = `exactMatches_from_source.json`
-  const exactMatchesInOriginalFormat = dependenciesExtractor.filterExactMatchesInOriginalFormat({
-    sourcesJsonArray: rawDependenciesJsonArray
-  })
-
-  infoMessage(
-    chalk`Writing {blue ${exactMatchesInOriginalFormat.length}} elements to {blue ${exactMatchesFilename}}\n`
-  )
-
-  try {
-    await fs.writeJSON(exactMatchesFilename, exactMatchesInOriginalFormat, { spaces: 2, eol: '\n' })
-  } catch (e) {
-    errorMessage(chalk`Could not write to {blue ${exactMatchesFilename}}`, e)
-  }
+  const detectDependenciesInReferenceFormat = await readDependenciesToReferenceFormatAndWriteToFiles({ sourceFile: input, versionOfDetect, nameVersionSeparator: separator, dependenciesOutputFilename: output, exactMatchesFilename })
 
   if (licenses) {
-    const licensesInReferenceFormat = await readLicensesAndExtendReferenceFormat({ licensesFile: licenses, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator })
-
-    const licensesOutputFilename = 'dependencies_with_licenses.json'
-    infoMessage(chalk`Writing dependencies with licenses to file ${licensesOutputFilename}...\n`)
-    try {
-      await fs.writeJSON(licensesOutputFilename, licensesInReferenceFormat, { spaces: 2, eol: '\n' })
-    } catch (e) {
-      errorMessage(chalk`Could not write to {blue ${licensesOutputFilename}}`, e)
-    }
+    await readLicensesToExtendedReferenceFormatAndWriteToFile({ licensesFile: licenses, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator, licensesOutputFilename })
   }
 }
 

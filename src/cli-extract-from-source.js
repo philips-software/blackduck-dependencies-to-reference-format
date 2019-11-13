@@ -39,6 +39,39 @@ program
 
 const { input, licenses, output, detect, separator, verbose } = program
 
+const areInputParametersValid = ({ input, licenses, versionOfDetect }) => {
+  if (!input) {
+    errorMessage(chalk`{red Mandatory input parameter is missing} (run 'extract-from-source --help' for usage); program exits`)
+    return false
+  }
+
+  if (!hasFileExtension({ fileName: input, extension: 'csv' })) {
+    errorMessage(chalk`Input file ${input} {red is not a csv file}; program exits`)
+    return false
+  }
+
+  if (licenses && !hasFileExtension({ fileName: licenses, extension: 'csv' })) {
+    errorMessage(chalk`Licenses file ${licenses} {red is not a csv file}; program exits`)
+    return false
+  }
+
+  if (!isSupportedVersionOfDetect({ versionOfDetect })) {
+    errorMessage(chalk`{red Unsupported detect version: ${versionOfDetect}}. Supported versions: ${SUPPORTED_DETECT_VERSIONS}. {red Program exits}`)
+    return false
+  }
+  return true
+}
+
+const readLicensesAndExtendReferenceFormat = async ({ licensesFile: licenses, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator }) => {
+  infoMessage(chalk`Reading from the licenses file...\n`)
+  const componentsJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: licenses })
+  infoMessage(chalk`{blue ${componentsJsonArray.length}} elements read from the csv file {blue ${licenses}}\n`)
+
+  return licensesExtractor.extractLicensesToExtendedReferenceFormat({
+    componentsJsonArray, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator
+  })
+}
+
 const processFiles = async () => {
   setVerbose(verbose)
 
@@ -46,24 +79,9 @@ const processFiles = async () => {
     chalk`extract-from-source\n Program arguments:\n    input: {blue ${input}}\n    licenses: {blue ${licenses}}\n    output: {blue ${output}}\n    detect: {blue ${detect}}\n    separator: {blue ${separator}}\n    verbose: {blue ${verbose}}`
   )
 
-  if (!input) {
-    errorMessage(chalk`{red Mandatory input parameter is missing} (run 'extract-from-source --help' for usage); program exits`)
-    return
-  }
-
-  if (!hasFileExtension({ fileName: input, extension: 'csv' })) {
-    errorMessage(chalk`Input file ${input} {red is not a csv file}; program exits`)
-    return
-  }
-
-  if (licenses && !hasFileExtension({ fileName: licenses, extension: 'csv' })) {
-    errorMessage(chalk`Licenses file ${licenses} {red is not a csv file}; program exits`)
-    return
-  }
-
   let versionOfDetect = detect
-  if (!isSupportedVersionOfDetect({ versionOfDetect })) {
-    errorMessage(chalk`{red Unsupported detect version: ${versionOfDetect}}. Supported versions: ${SUPPORTED_DETECT_VERSIONS}. {red Program exits}`)
+
+  if (!areInputParametersValid({ input, licenses, versionOfDetect })) {
     return
   }
 
@@ -98,13 +116,7 @@ const processFiles = async () => {
   }
 
   if (licenses) {
-    infoMessage(chalk`Reading from the licenses file...\n`)
-    const componentsJsonArray = await getAsyncJsonArrayFromCsv({ csvFileName: licenses })
-    infoMessage(chalk`{blue ${componentsJsonArray.length}} elements read from the csv file {blue ${licenses}}\n`)
-
-    const licensesInReferenceFormat = licensesExtractor.extractLicensesToExtendedReferenceFormat({
-      componentsJsonArray, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator
-    })
+    const licensesInReferenceFormat = await readLicensesAndExtendReferenceFormat({ licensesFile: licenses, sbomJsonArray: detectDependenciesInReferenceFormat, nameVersionSeparator: separator })
 
     const licensesOutputFilename = 'dependencies_with_licenses.json'
     infoMessage(chalk`Writing dependencies with licenses to file ${licensesOutputFilename}...\n`)

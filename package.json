@@ -1,7 +1,7 @@
 {
   "name": "blackduck-dependencies-to-reference-format",
-  "version": "1.0.2",
-  "description": "Extracts dependencies from the output (source csv) of the Detect tool from BlackDuck (Synopsis), to a reference format. This reference format is a JSON file containing arrays of objects with keys name and version.",
+  "version": "1.0.3",
+  "description": "Extracts dependencies from the output (source csv) of the Detect tool from BlackDuck (Synopsis), to a reference format. This reference format is a JSON file containing arrays of objects with keys name and version. Optionally reading license info",
   "main": "index.js",
   "scripts": {
     "lint": "yarn standard",

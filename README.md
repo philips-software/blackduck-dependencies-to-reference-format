@@ -1,4 +1,7 @@
 # blackduck-dependencies-to-reference-format
+
+> Note: :warning: If you're interested in Software Bill of Materials, you might also look into [Bompare](https://github.com/philips-labs/bompare)
+
 ## Description
 Extracts dependencies from the source.csv artifact of tool __detect__ from BlackDuck (Synopsis).
 Optionally, adds information on the licenses.

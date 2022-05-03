@@ -1,4 +1,4 @@
-# blackduck-dependencies-to-reference-format
+# ⚠️ THIS REPOSITORY IS NO LONGER MAINTAINED ⚠️
 
 > Note: :warning: If you're interested in Software Bill of Materials, you might also look into [Bompare](https://github.com/philips-labs/bompare)
 
